@@ -14,6 +14,7 @@ async function generateUI() {
 
 async function setClickable() {
   document.getElementById("add-new-container-button").onclick = addNewContainer;
+  document.getElementById("search").onkeyup = filterContainers;
 }
 
 async function addNewContainer() {
@@ -43,8 +44,14 @@ async function addNewContainer() {
     });
 }
 
-async function displayAllContainers(settings) {
+async function displayAllContainers(settings, filter) {
   var containers = await browser.contextualIdentities.query({});
+
+  if (filter) {
+    containers = containers.filter((c) =>
+      c.name.toLowerCase().includes(filter),
+    );
+  }
 
   containers.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -60,8 +67,6 @@ async function displayAllContainers(settings) {
       var selectedProxy = "no-proxy";
     }
 
-    console.log(cookieStoreId + " " + selectedProxy);
-
     containersHTML += template.CONTAINER_TEMPLATE(
       utils.sanitize(container.name),
       color,
@@ -71,6 +76,13 @@ async function displayAllContainers(settings) {
   }
 
   document.getElementById("containers").innerHTML = containersHTML;
+}
+
+async function filterContainers() {
+  var filter = utils.sanitize(document.getElementById("search").value);
+  var settings = await browser.storage.local.get(null);
+
+  displayAllContainers(settings, filter.toLowerCase());
 }
 
 async function loadSettings() {
