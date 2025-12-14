@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="popup.css" />
+    </head>
+    <fieldset>
+        <legend>New Container</legend>
+        <div id="new-container">
+            <label for="new-container-text">Name:</label>
+            <input type="text" id="new-container-text"></input>
+
+            <span class="custom-radios" id="color-picker"></span>
+
+            <input type="button" id="new-container-button" value="Add"/>
+        </div>
+    </fieldset>
+
+    <fieldset class="flex-container">
+        <legend>Settings</legend>
+        <div id="settings" class="flex-item"></div>
+
+        <div class="flex-item">
+            <input
+                type="checkbox"
+                id="bypass-firefox"
+                value="bypass-telemetry"
+            />
+            <label for="bypass-telemetry">Bypass Telemetry</label>
+            <br />
+            <input type="checkbox" id="bypass-custom" value="bypass-custom" />
+            <label for="bypass-custom">Bypass Custom</label>
+            <br />
+            <input type="checkbox" id="bypass-options" value="bypass-options" />
+            <label for="bypass-options">bypass-OPTIONS</label>
+        </div>
+        <br />
+        <div class="flex-item">
+            <a id="open-settings" href=".">Open settings</a>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Current tab:</legend>
+        <div id="current-tab-text"></div>
+        <button type="button" id="current-tab-reload">
+            Reload tab<br />
+            Bypassing the cache
+        </button>
+        <button type="button" id="current-tab-remove-local">
+            Clear<br />
+            Local Storage
+        </button>
+        <button type="button" id="current-tab-remove-session">
+            Clear<br />
+            Session Storage
+        </button>
+        <button type="button" id="current-tab-remove-all">
+            <br />Clear all
+        </button>
+    </fieldset>
+    <fieldset>
+        <legend>Containers</legend>
+        <input type="text" id="search" placeholder="search" />
+        <table class="alternate" id="containers"></table>
+    </fieldset>
+
+    <script type="module" src="popup.js"></script>
+</html>
