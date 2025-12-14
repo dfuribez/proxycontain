@@ -15,6 +15,39 @@ async function generateUI() {
 async function setClickable() {
   document.getElementById("add-new-container-button").onclick = addNewContainer;
   document.getElementById("search").onkeyup = filterContainers;
+
+  const openContainers = document.getElementsByClassName("open-container");
+  for (let r = 0; r < openContainers.length; r++) {
+    const open = openContainers.item(r);
+    open.onclick = () => {
+      browser.tabs.create({
+        active: true,
+        cookieStoreId: open.id.substring(2),
+      });
+    };
+  }
+
+  const deleteButtons = document.getElementsByClassName("delete-button");
+  for (let i = 0; i < deleteButtons.length; i++) {
+    const sbutton = deleteButtons.item(i);
+    const cookieStoreId = sbutton.title;
+
+    sbutton.onclick = () => {
+      browser.contextualIdentities.remove(cookieStoreId).then(() => {
+        document.getElementById(cookieStoreId).remove();
+        browser.storage.local.remove(cookieStoreId);
+      });
+    };
+  }
+
+  const selects = document.getElementsByClassName("select-proxy");
+  for (let r = 0; r < selects.length; r++) {
+    selects.item(r).onclick = async (element) => {
+      const proxy = element.target.value;
+      const cookie = element.target.parentNode.id.slice(3);
+      await browser.storage.local.set({ [cookie]: proxy });
+    };
+  }
 }
 
 async function addNewContainer() {
@@ -76,6 +109,7 @@ async function displayAllContainers(settings, filter) {
   }
 
   document.getElementById("containers").innerHTML = containersHTML;
+  await setClickable();
 }
 
 async function filterContainers() {
@@ -100,7 +134,7 @@ async function loadSettings() {
   document.getElementById("bypass-options").checked =
     settings["bypass-options"];
 
-  displayAllContainers(settings);
+  await displayAllContainers(settings);
 }
 
 async function popup() {

@@ -58,7 +58,7 @@ export const CONTAINER_TEMPLATE = (name, color, cookieStoreId, proxy) => {
       <select name="proxies" id="px-${cookieStoreId}" class="select-proxy">
         <option value="proxy1" ${proxy1}>Proxy 1</option>
         <option value="proxy2" ${proxy2}>Proxy 2</option>
-        <option value="no proxy" ${noProxy}>No proxy</option>
+        <option value="no-proxy" ${noProxy}>No proxy</option>
       </select>
     </th>
   </tr>
