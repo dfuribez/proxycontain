@@ -78,3 +78,9 @@ tr:hover {
 .open-container {
     cursor: pointer;
 }
+
+.container-image img {
+    max-width: 15px;
+    object-fit: cover;
+    display: block;
+}

@@ -27,7 +27,13 @@ export const RADIO_BUTTON = (color) => {
  * // Create a container for "Main" with red color
  * const html = CONTAINER_TEMPLATE("Main", "#ff0000", "proxy1");
  */
-export const CONTAINER_TEMPLATE = (name, color, cookieStoreId, proxy) => {
+export const CONTAINER_TEMPLATE = (
+  name,
+  color,
+  image,
+  cookieStoreId,
+  proxy,
+) => {
   var proxy1;
   var proxy2;
   var noProxy = "selected";
@@ -46,6 +52,7 @@ export const CONTAINER_TEMPLATE = (name, color, cookieStoreId, proxy) => {
 
   return `
   <tr id="${cookieStoreId}">
+    <th class="container-image open-container" id="i-${cookieStoreId}"><img src="${image}"></th>
     <th>
       <div class="div-color open-container" id="d-${cookieStoreId}" style="background-color: ${color}"></div>
     </th>
