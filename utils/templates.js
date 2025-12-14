@@ -9,18 +9,6 @@ export const RADIO_BUTTON = (color) => {
   </div>`;
 };
 
-export const COLORS_MAP = {
-  red: "red",
-  orange: "orange",
-  yellow: "yellow",
-  lightgreen: "green",
-  lightblue: "blue",
-  pink: "pink",
-  magenta: "purple", // *
-  cyan: "turquoise", // *
-  lightgray: "toolbar", // *
-};
-
 /**
  * Generates a container template string for a UI element.
  *
@@ -37,8 +25,7 @@ export const COLORS_MAP = {
  *
  * @example
  * // Create a container for "Main" with red color
- * const html = CONTAINER_TEMPLATE("Main", "#ff0000", "store1", 10, 20, 30);
- * console.log(html);
+ * const html = CONTAINER_TEMPLATE("Main", "#ff0000", "proxy1");
  */
 export const CONTAINER_TEMPLATE = (name, color, cookieStoreId, proxy) => {
   var proxy1;
