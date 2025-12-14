@@ -20,3 +20,60 @@ export const COLORS_MAP = {
   cyan: "turquoise", // *
   lightgray: "toolbar", // *
 };
+
+/**
+ * Generates a container template string for a UI element.
+ *
+ * The template returned by this function includes the
+ * container name, its color representation, the associated
+ * cookie store identifier, and optional parameter values.
+ *
+ * @constant
+ * @param {string} name - The name of the container.
+ * @param {string} color - The CSS-compatible color value for the container.
+ * @param {string} cookieStoreId - The cookie store identifier associated with this container.
+ * @param {string} proxy - It can be "proxy1", "proxy2", "no-proxy"
+ * @returns {string} A fully formatted UI container template.
+ *
+ * @example
+ * // Create a container for "Main" with red color
+ * const html = CONTAINER_TEMPLATE("Main", "#ff0000", "store1", 10, 20, 30);
+ * console.log(html);
+ */
+export const CONTAINER_TEMPLATE = (name, color, cookieStoreId, proxy) => {
+  var proxy1;
+  var proxy2;
+  var noProxy = "selected";
+
+  if (proxy == "proxy1") {
+    proxy1 = "selected";
+    proxy2 = "";
+    noProxy = "";
+  }
+
+  if (proxy == "proxy2") {
+    proxy1 = "";
+    proxy2 = "selected";
+    noProxy = "";
+  }
+
+  return `
+  <tr id="${cookieStoreId}">
+    <th>
+      <div class="div-color open-container" id="d-${cookieStoreId}" style="background-color: ${color}"></div>
+    </th>
+    <th><div class="container open-container" id="b-${cookieStoreId}" alt="${cookieStoreId}">${name}</div></th>
+    <th>
+      <input type="button" value="Delete" class="delete-button" title="${cookieStoreId}">
+    </th>
+
+    <th>
+      <select name="proxies" id="px-${cookieStoreId}" class="select-proxy">
+        <option value="proxy1" ${proxy1}>Proxy 1</option>
+        <option value="proxy2" ${proxy2}>Proxy 2</option>
+        <option value="no proxy" ${noProxy}>No proxy</option>
+      </select>
+    </th>
+  </tr>
+    `;
+};
