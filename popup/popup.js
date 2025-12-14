@@ -103,6 +103,7 @@ async function displayAllContainers(settings, filter) {
     containersHTML += template.CONTAINER_TEMPLATE(
       utils.sanitize(container.name),
       color,
+      container.iconUrl,
       cookieStoreId,
       selectedProxy,
     );
