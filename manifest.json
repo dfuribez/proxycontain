@@ -2,8 +2,8 @@
   "manifest_version": 2,
   "name": "ProxyContain",
   "version": "1.5",
-  "description": "",
-  "homepage_url": "",
+  "description": "Proxy Container",
+  "homepage_url": "https://github.com/dfuribez/proxycontain",
   "icons": {
     "128": "res/icon.png"
   },
@@ -27,7 +27,7 @@
   "browser_action": {
     "default_icon": "res/icon.png",
     "default_title": "Proxy Contain",
-    "default_popup": "popup/main.html"
+    "default_popup": "popup/popup.html"
   },
   "background": {
     "scripts": ["background.js"]

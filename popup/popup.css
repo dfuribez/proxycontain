@@ -1,0 +1,80 @@
+.imagen {
+    display: inline-block;
+}
+
+/* RADIO BUTTONS */
+
+.custom-radios div {
+    display: inline-block;
+}
+
+.custom-radios input[type="radio"] {
+    display: none;
+}
+.custom-radios input[type="radio"] + label {
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+.custom-radios input[type="radio"] + label span,
+.div-color {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin: -5px 4px 0 0;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+    line-height: 25px;
+}
+.custom-radios input[type="radio"] + label span img {
+    opacity: 0;
+    transition: all 0.3s ease;
+    /* object-fit: scale-down; */
+    object-position: 0 -5px;
+}
+
+.custom-radios input[type="radio"]:checked + label span img {
+    opacity: 1;
+}
+/* END RADIO BUTTONS */
+
+.div-color {
+    cursor: default;
+}
+
+.container {
+    text-align: left;
+}
+
+.select {
+    display: flex;
+}
+
+fieldset {
+    margin-bottom: 10px;
+    margin-top: 0;
+    padding-top: 10px;
+}
+
+tr:hover {
+    background-color: #f3f3f3;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.flex-item {
+    flex-grow: 1;
+    align-self: center;
+}
+
+.open-container {
+    cursor: pointer;
+}
