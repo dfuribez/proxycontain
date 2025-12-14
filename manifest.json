@@ -1,0 +1,38 @@
+{
+  "manifest_version": 2,
+  "name": "ProxyContain",
+  "version": "1.5",
+  "description": "",
+  "homepage_url": "",
+  "icons": {
+    "128": "res/icon.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "proxy@contain",
+      "strict_min_version": "91.1.0"
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "contextualIdentities",
+    "cookies",
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>",
+    "proxy",
+    "storage",
+    "scripting"
+  ],
+  "browser_action": {
+    "default_icon": "res/icon.png",
+    "default_title": "Proxy Contain",
+    "default_popup": "popup/main.html"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "options_ui": {
+    "page": "settings/settings.html"
+  }
+}
