@@ -1,4 +1,5 @@
 import * as utils from "../utils/utils.js";
+import * as constants from "../utils/constants.js";
 
 async function loadSettings() {
   var settings = await browser.storage.local.get(null);
@@ -16,6 +17,23 @@ async function loadSettings() {
   document.getElementById("proxy2-port").value = settings["proxy2-port"]
     ? settings["proxy2-port"]
     : 0;
+
+  var customList = settings["custom-list"] ? settings["custom-list"] : [];
+  var telemetryList = [];
+
+  if (!settings["telemetry-list"]) {
+    await browser.storage.local.set({
+      "telemetry-list": constants.TELEMETRY_LIST,
+    });
+    telemetryList = constants.TELEMETRY_LIST;
+  } else {
+    telemetryList = settings["telemetry-list"];
+  }
+
+  document.getElementById("telemetry-urls").value = telemetryList.join("\n");
+  document.getElementById("custom-urls").value = customList.join("\n");
+
+  document.getElementById("telemetry-title").innerText = telemetryList.length;
 }
 
 async function setClickable() {
