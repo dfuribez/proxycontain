@@ -83,6 +83,16 @@ async function setClickable() {
     });
     getStorageElements();
   };
+
+  document.getElementById("current-tab-reload").onclick = async () => {
+    const currentTab = await browser.tabs.query({ active: true });
+    browser.tabs.reload(currentTab[0].id, { bypassCache: true });
+    getStorageElements();
+  };
+
+  document.getElementById("open-settings").onclick = () => {
+    browser.runtime.openOptionsPage();
+  };
 }
 
 async function getStorageElements() {
