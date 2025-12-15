@@ -48,6 +48,63 @@ async function setClickable() {
       await browser.storage.local.set({ [cookie]: proxy });
     };
   }
+
+  document.getElementById("current-tab-remove-local").onclick = async () => {
+    await getStorageElements();
+    const currentTab = await browser.tabs.query({ active: true });
+    await browser.scripting.executeScript({
+      target: { tabId: currentTab[0].id },
+      func: async () => {
+        localStorage.clear();
+      },
+    });
+    getStorageElements();
+  };
+
+  document.getElementById("current-tab-remove-session").onclick = async () => {
+    const currentTab = await browser.tabs.query({ active: true });
+    await browser.scripting.executeScript({
+      target: { tabId: currentTab[0].id },
+      func: () => {
+        sessionStorage.clear();
+      },
+    });
+    getStorageElements();
+  };
+
+  document.getElementById("current-tab-remove-all").onclick = async () => {
+    const currentTab = await browser.tabs.query({ active: true });
+    await browser.scripting.executeScript({
+      target: { tabId: currentTab[0].id },
+      func: () => {
+        sessionStorage.clear();
+        localStorage.clear();
+      },
+    });
+    getStorageElements();
+  };
+}
+
+async function getStorageElements() {
+  const currentTab = await browser.tabs.query({ active: true });
+
+  var local = await browser.scripting.executeScript({
+    target: { tabId: currentTab[0].id },
+    func: () => {
+      return localStorage.length;
+    },
+  });
+
+  var session = await browser.scripting.executeScript({
+    target: { tabId: currentTab[0].id },
+    func: () => {
+      return sessionStorage.length;
+    },
+  });
+
+  document.getElementById("local-items").innerText = local[0].result + " items";
+  document.getElementById("session-items").innerText =
+    session[0].result + " items";
 }
 
 async function addNewContainer() {
@@ -136,6 +193,7 @@ async function loadSettings() {
     settings["bypass-options"];
 
   await displayAllContainers(settings);
+  await getStorageElements();
 }
 
 async function popup() {
