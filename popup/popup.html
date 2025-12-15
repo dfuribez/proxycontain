@@ -45,22 +45,23 @@
     <fieldset>
         <legend>Current tab:</legend>
         <div id="current-tab-text"></div>
-        <button type="button" id="current-tab-reload">
-            Reload tab<br />
-            Bypassing the cache
-        </button>
-        <button type="button" id="current-tab-remove-local">
-            Clear<br />
-            Local Storage
-        </button>
-        <button type="button" id="current-tab-remove-session">
-            Clear<br />
-            Session Storage
-        </button>
-        <button type="button" id="current-tab-remove-all">
-            <br />Clear all
-        </button>
+
+        <table>
+            <tr>
+                <th>Local Storage:</th>
+                <td><span id="local-items"></span></td>
+                <td><button type="button" id="current-tab-remove-local">Clear</button></td>
+                <td rowspan="3"><button type="button" id="current-tab-remove-all">Clear all</button></td>
+                <td rowspan="3"><button type="button" id="current-tab-reload">Reload tab<br>Bypassing the cache</button></td>
+            </tr>
+            <tr>
+                <th>Session storage:</th>
+                <td><span id="session-items"></span></td>
+                <td><button type="button" id="current-tab-remove-session">Clear<br /></button></td>
+            </tr>
+        </table>
     </fieldset>
+
     <fieldset>
         <legend>Containers</legend>
         <input type="text" id="search" placeholder="search" />
