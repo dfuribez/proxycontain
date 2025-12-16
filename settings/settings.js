@@ -30,8 +30,10 @@ async function loadSettings() {
     telemetryList = settings["telemetry-list"];
   }
 
-  document.getElementById("telemetry-urls").value = telemetryList.join("\n");
-  document.getElementById("custom-urls").value = customList.join("\n");
+  document.getElementById("telemetry-urls").value = telemetryList
+    .sort()
+    .join("\n");
+  document.getElementById("custom-urls").value = customList.sort().join("\n");
 
   document.getElementById("telemetry-title").innerText = telemetryList.length;
   document.getElementById("fireproxy").checked = settings["fireproxy"];
@@ -59,8 +61,8 @@ async function saveSettings() {
   var sanitizedCustom = customUrls.map((url) => utils.sanitize(url));
 
   browser.storage.local.set({
-    "telemetry-list": sanitizedTelemetry,
-    "custom-list": sanitizedCustom,
+    "telemetry-list": sanitizedTelemetry.filter((i) => i),
+    "custom-list": sanitizedCustom.filter((i) => i),
   });
 }
 
