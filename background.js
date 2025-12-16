@@ -1,3 +1,15 @@
+const FIREFOX2BURP_COLORS = {
+  red: "red",
+  orange: "orange",
+  yellow: "yellow",
+  green: "green",
+  blue: "blue",
+  pink: "pink",
+  purple: "magenta",
+  turquoise: "cyan",
+  toolbar: "gray",
+};
+
 async function checkBlacklist(url, blacklist) {
   for (const black of blacklist) {
     if (url.includes(black)) {
@@ -54,4 +66,32 @@ async function setproxy(requestDetails) {
   }
 }
 
+async function addHeaders(_) {
+  var settings = await browser.storage.local.get(null);
+
+  var cookieStoreId = _.cookieStoreId;
+
+  if (cookieStoreId == "firefox-default") {
+    return { requestHeaders: _.requestHeaders };
+  }
+
+  if (settings["fireproxy"]) {
+    var { color, name } = await browser.contextualIdentities
+      .get(cookieStoreId)
+      .then((c) => {
+        return { color: c.color, name: c.name };
+      });
+
+    const headerValue = `${FIREFOX2BURP_COLORS[color]},${name}`;
+    _.requestHeaders.push({ name: "x-fire", value: headerValue });
+  }
+
+  return { requestHeaders: _.requestHeaders };
+}
+
 browser.proxy.onRequest.addListener(setproxy, { urls: ["<all_urls>"] });
+browser.webRequest.onBeforeSendHeaders.addListener(
+  addHeaders,
+  { urls: ["<all_urls>"] },
+  ["blocking", "requestHeaders"],
+);
