@@ -1,7 +1,7 @@
 async function checkBlacklist(url, blacklist) {
   for (const black of blacklist) {
     if (url.includes(black)) {
-      console.log("bypassing: " + url);
+      console.log("bypassing: " + url + " blacklisted: " + black);
       return true;
     }
   }
