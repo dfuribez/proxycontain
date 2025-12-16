@@ -93,6 +93,18 @@ async function setClickable() {
   document.getElementById("open-settings").onclick = () => {
     browser.runtime.openOptionsPage();
   };
+
+  document.getElementById("bypass-telemetry").onclick = saveSettings;
+  document.getElementById("bypass-custom").onclick = saveSettings;
+  document.getElementById("bypass-options").onclick = saveSettings;
+}
+
+async function saveSettings() {
+  browser.storage.local.set({
+    "bypass-telemetry": document.getElementById("bypass-telemetry").checked,
+    "bypass-custom": document.getElementById("bypass-custom").checked,
+    "bypass-options": document.getElementById("bypass-options").checked,
+  });
 }
 
 async function getStorageElements() {
@@ -198,7 +210,7 @@ async function loadSettings() {
 
   document.getElementById("bypass-telemetry").checked =
     settings["bypass-telemetry"];
-  document.getElementById("bypass-custom").checked = settings["bypass-others"];
+  document.getElementById("bypass-custom").checked = settings["bypass-custom"];
   document.getElementById("bypass-options").checked =
     settings["bypass-options"];
 
