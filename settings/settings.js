@@ -34,10 +34,34 @@ async function loadSettings() {
   document.getElementById("custom-urls").value = customList.join("\n");
 
   document.getElementById("telemetry-title").innerText = telemetryList.length;
+  document.getElementById("fireproxy").checked = settings["fireproxy"];
 }
 
 async function setClickable() {
   document.getElementById("set-proxy-button").onclick = saveProxy;
+
+  document.getElementById("save-settings").onclick = saveSettings;
+
+  document.getElementById("fireproxy").onclick = () => {
+    browser.storage.local.set({
+      fireproxy: document.getElementById("fireproxy").checked,
+    });
+  };
+}
+
+async function saveSettings() {
+  var telemetryUrls = document
+    .getElementById("telemetry-urls")
+    .value.split(/\r?\n/);
+  var customUrls = document.getElementById("custom-urls").value.split(/\r?\n/);
+
+  var sanitizedTelemetry = telemetryUrls.map((url) => utils.sanitize(url));
+  var sanitizedCustom = customUrls.map((url) => utils.sanitize(url));
+
+  browser.storage.local.set({
+    "telemetry-list": sanitizedTelemetry,
+    "custom-list": sanitizedCustom,
+  });
 }
 
 async function saveProxy() {
