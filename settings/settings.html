@@ -51,20 +51,25 @@
             </div>
         </form>
 
-        <br />
+        <hr class="separator" />
+
         <table>
             <tr>
                 <td>
                     <label for="fireproxy">Send <i>x-fire</i> header</label>
                     <input type="checkbox" id="fireproxy" name="fireproxy" />
+                    (<a href="https://github.com/dfuribez/crypto-stripper"
+                        >Crypto Stripper</a
+                    >)
                 </td>
             </tr>
         </table>
 
-        <br />
-        The URLs added in this section won't be sent to the proxy but the
-        request won't be blocked
+        <hr class="separator" />
+
         <div class="flex-container">
+            The URLs added in this section won't be sent to the proxy but the
+            request won't be blocked
             <div id="firefox" class="flex-item">
                 <h3>
                     Telemetry <span id="telemetry-title"></span> (<a

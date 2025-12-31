@@ -19,3 +19,8 @@ label,
 input {
     display: inline-block;
 }
+
+hr {
+    background: transparent;
+    border: none;
+}
