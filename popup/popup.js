@@ -12,6 +12,28 @@ async function generateUI() {
   document.getElementById("color-picker").innerHTML = radioButtonsHTML;
 }
 
+async function removeCookies() {
+  const [currentTab] = await browser.tabs.query({
+    active: true,
+    currentWindow: true,
+  });
+
+  const url = currentTab.url;
+
+  const cookies = await browser.cookies.getAll({
+    url: url,
+    storeId: currentTab.cookieStoreId,
+  });
+
+  for (const cookie of cookies) {
+    await browser.cookies.remove({
+      url: url,
+      name: cookie.name,
+      storeId: currentTab.cookieStoreId,
+    });
+  }
+}
+
 async function setClickable() {
   document.getElementById("add-new-container-button").onclick = addNewContainer;
   document.getElementById("search").onkeyup = filterContainers;
@@ -72,6 +94,11 @@ async function setClickable() {
     getStorageElements();
   };
 
+  document.getElementById("current-tab-remove-cookies").onclick = async () => {
+    await removeCookies();
+    getStorageElements();
+  };
+
   document.getElementById("current-tab-remove-all").onclick = async () => {
     const currentTab = await browser.tabs.query({ active: true });
     await browser.scripting.executeScript({
@@ -81,6 +108,7 @@ async function setClickable() {
         localStorage.clear();
       },
     });
+    await removeCookies();
     getStorageElements();
   };
 
@@ -108,25 +136,31 @@ async function saveSettings() {
 }
 
 async function getStorageElements() {
-  const currentTab = await browser.tabs.query({ active: true });
+  const [currentTab] = await browser.tabs.query({ active: true });
 
   var local = await browser.scripting.executeScript({
-    target: { tabId: currentTab[0].id },
+    target: { tabId: currentTab.id },
     func: () => {
       return localStorage.length;
     },
   });
 
   var session = await browser.scripting.executeScript({
-    target: { tabId: currentTab[0].id },
+    target: { tabId: currentTab.id },
     func: () => {
       return sessionStorage.length;
     },
   });
 
+  const cookies = await browser.cookies.getAll({
+    url: currentTab.url,
+    storeId: currentTab.cookieStoreId,
+  });
+
   document.getElementById("local-items").innerText = local[0].result + " items";
   document.getElementById("session-items").innerText =
     session[0].result + " items";
+  document.getElementById("cookies").innerText = cookies.length + " cookies";
 }
 
 async function addNewContainer() {
