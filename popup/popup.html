@@ -71,8 +71,18 @@
     </fieldset>
 
     <details id="headers" open>
-      <summary>Panel Title</summary>
-      <p>Content visible by default.</p>
+      <summary>Headers</summary>
+      <div id="headers-container">
+          <div class="item">Header: </div>
+          <div class="item"><input type="text" id="header-name"> </div>
+          <div class="item">Value: </div>
+          <div class="item"><input type="text" id="header-value"> </div>
+          <div class="item"><input type="button" id="add-header" value="Add"></div>
+      </div>
+
+
+      <table class="alternate" id="headers-table"></table>
+
     </details>
 
 
