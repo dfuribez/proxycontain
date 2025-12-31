@@ -36,13 +36,22 @@ async function loadSettings() {
   document.getElementById("custom-urls").value = customList.sort().join("\n");
 
   document.getElementById("telemetry-title").innerText = telemetryList.length;
+  document.getElementById("custom-title").innerText = customList.length;
+
   document.getElementById("fireproxy").checked = settings["fireproxy"];
 }
 
 async function setClickable() {
   document.getElementById("set-proxy-button").onclick = saveProxy;
-
   document.getElementById("save-settings").onclick = saveSettings;
+
+  document.getElementById("reset-telemetry").onclick = async () => {
+    await browser.storage.local.set({
+      "telemetry-list": constants.TELEMETRY_LIST,
+    });
+    await loadSettings();
+    await setClickable();
+  };
 
   document.getElementById("fireproxy").onclick = () => {
     browser.storage.local.set({
