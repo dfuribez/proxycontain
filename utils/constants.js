@@ -58,4 +58,5 @@ export const TELEMETRY_LIST = [
   "hotjar.io",
   "mixpanel.com",
   "hotjar.com",
+  "i.ytimg.com",
 ];
