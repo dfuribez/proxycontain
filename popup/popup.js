@@ -114,7 +114,7 @@ async function setClickable() {
 
   document.getElementById("current-tab-reload").onclick = async () => {
     const currentTab = await browser.tabs.query({ active: true });
-    browser.tabs.reload(currentTab[0].id, { bypassCache: true });
+    await browser.tabs.reload(currentTab[0].id, { bypassCache: true });
     getStorageElements();
   };
 
@@ -236,8 +236,8 @@ async function filterContainers() {
 async function loadSettings() {
   var settings = await browser.storage.local.get(null);
 
-  var p1 = `Proxy 1: ${settings["proxy1-host"]}:${settings["proxy1-port"]}`;
-  var p2 = `Proxy 2: ${settings["proxy2-host"]}:${settings["proxy2-port"]}`;
+  var p1 = `${settings["proxy1-host"]}:${settings["proxy1-port"]}`;
+  var p2 = `${settings["proxy2-host"]}:${settings["proxy2-port"]}`;
 
   document.getElementById("proxy1-settings").innerHTML = utils.sanitize(p1);
   document.getElementById("proxy2-settings").innerHTML = utils.sanitize(p2);
