@@ -116,11 +116,18 @@ table {
     justify-content: center;
 }
 
-#new-container {
+#new-container,
+#headers-container {
     display: flex;
     flex-wrap: wrap;
 }
 
 .item {
     flex: auto;
+}
+
+details {
+    border: 1px;
+    border-style: solid;
+    padding: 10px;
 }

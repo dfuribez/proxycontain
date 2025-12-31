@@ -10,6 +10,25 @@ async function generateUI() {
   }
 
   document.getElementById("color-picker").innerHTML = radioButtonsHTML;
+
+  var containers = await browser.contextualIdentities.query({});
+
+  var storedHeaders = await browser.storage.local.get("headers");
+
+  var headersHTML = "";
+
+  for (const key in storedHeaders.headers) {
+    const header = storedHeaders.headers[key];
+    console.log(header.name);
+    headersHTML += template.HEADER_TEMPLATE(
+      header.name,
+      header.value,
+      key,
+      containers,
+    );
+  }
+
+  document.getElementById("headers-table").innerHTML = headersHTML;
 }
 
 async function removeCookies() {
@@ -34,9 +53,28 @@ async function removeCookies() {
   }
 }
 
+async function addHeader() {
+  var headerName = utils.sanitize(document.getElementById("header-name").value);
+  var headerValue = utils.sanitize(
+    document.getElementById("header-value").value,
+  );
+
+  var storedHeaders = await browser.storage.local.get("headers");
+
+  const id = Date.now() + Math.random().toString(36).slice(2, 7);
+
+  var headers = storedHeaders.headers || {};
+
+  headers[id] = { name: headerName, value: headerValue, contaiter: "all" };
+  await browser.storage.local.set({ headers: headers });
+
+  await popup();
+}
+
 async function setClickable() {
   document.getElementById("add-new-container-button").onclick = addNewContainer;
   document.getElementById("search").onkeyup = filterContainers;
+  document.getElementById("add-header").onclick = addHeader;
 
   const openContainers = document.getElementsByClassName("open-container");
   for (let r = 0; r < openContainers.length; r++) {

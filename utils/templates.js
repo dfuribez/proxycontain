@@ -1,5 +1,5 @@
 export const RADIO_BUTTON = (color) => {
-  return `<div>
+  return `<div class="item">
     <input type="radio" id="burp-${color}" name="color" value="${color}" ${color === "red" ? "checked" : ""}>
     <label for="burp-${color}">
       <span style="background-color: ${color}">
@@ -68,6 +68,27 @@ export const CONTAINER_TEMPLATE = (
         <option value="no-proxy" ${noProxy}>No proxy</option>
       </select>
     </th>
+  </tr>
+    `;
+};
+
+export const HEADER_TEMPLATE = (name, value, headerId, tabs) => {
+  var drop = `<select name="proxies" id="sn-${headerId}" class="option-header">
+    <option value="all">all</option>`;
+
+  tabs.forEach((tab) => {
+    drop += `<option value="${tab.name}" >${tab.name}</option>`;
+  });
+
+  return `
+  <tr>
+    <th>${name}</th>
+    <td>${value}</td>
+    <td><input type="button" value="delete" id="d-${headerId} class="delete-header"">
+    <td>
+      ${drop}
+      </select>
+    </td>
   </tr>
     `;
 };
