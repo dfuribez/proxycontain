@@ -10,14 +10,9 @@ const FIREFOX2BURP_COLORS = {
   toolbar: "gray",
 };
 
-async function checkBlacklist(url, blacklist) {
-  for (const black of blacklist) {
-    if (url.includes(black)) {
-      console.log("bypassing: " + url + " blacklisted: " + black);
-      return true;
-    }
-  }
-  return false;
+async function isDomainBlacklisted(url, blacklist) {
+  const currentDomain = new URL(url).hostname;
+  return blacklist.includes(currentDomain);
 }
 
 async function setproxy(requestDetails) {
@@ -34,13 +29,15 @@ async function setproxy(requestDetails) {
   }
 
   if (settings["bypass-telemetry"]) {
-    if (await checkBlacklist(requestDetails.url, telemetryList)) {
+    if (await isDomainBlacklisted(requestDetails.url, telemetryList)) {
+      console.log("bypassing: " + url);
       return null;
     }
   }
 
   if (settings["bypass-custom"]) {
-    if (await checkBlacklist(requestDetails.url, customList)) {
+    if (await isDomainBlacklisted(requestDetails.url, customList)) {
+      console.log("bypassing: " + url);
       return null;
     }
   }
