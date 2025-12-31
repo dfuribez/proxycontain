@@ -46,25 +46,30 @@
         <legend>Current tab:</legend>
         <div id="current-tab-text"></div>
 
-        <table>
-            <tr>
-                <th>Local Storage:</th>
-                <td><span id="local-items"></span></td>
-                <td><button type="button" id="current-tab-remove-local">Clear</button></td>
-                <td rowspan="3"><button type="button" id="current-tab-remove-all">Clear all</button></td>
-                <td rowspan="3"><button type="button" id="current-tab-reload">Reload tab<br>Bypassing the cache</button></td>
-            </tr>
-            <tr>
-                <th>Session storage:</th>
-                <td><span id="session-items"></span></td>
-                <td><button type="button" id="current-tab-remove-session">Clear<br /></button></td>
-            </tr>
-            <tr>
-                <th>Cookies:</th>
-                <td><span id="cookies"></span></td>
-                <td><button type="button" id="current-tab-remove-cookies">Clear<br /></button></td>
-            </tr>
-        </table>
+        <div class="storage-grid">
+            <div class="header">Local Storage:</div>
+            <div id="local-items"></div>
+            <div><button id="current-tab-remove-local">Clear</button></div>
+
+            <div class="big-btn">
+                <button id="current-tab-remove-all">Clear all</button>
+            </div>
+
+            <div class="big-btn">
+                <button id="current-tab-reload">
+                    Reload tab<br>Bypassing the cache
+                </button>
+            </div>
+
+            <div class="header">Session storage:</div>
+            <div id="session-items"></div>
+            <div><button id="current-tab-remove-session">Clear</button></div>
+
+            <div class="header">Cookies:</div>
+            <div id="cookies"></div>
+            <div><button id="current-tab-remove-cookies">Clear</button></div>
+        </div>
+
     </fieldset>
 
     <details id="headers" open>

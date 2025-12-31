@@ -2,8 +2,6 @@
     display: inline-block;
 }
 
-/* RADIO BUTTONS */
-
 .custom-radios div {
     display: inline-block;
 }
@@ -88,4 +86,32 @@ tr:hover {
 table {
     width: 100%;
     max-width: 100%;
+    text-align: left;
+}
+
+.storage-grid {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    grid-template-rows: repeat(3, auto);
+    align-items: stretch;
+    column-gap: 1em;
+}
+
+.header {
+    font-weight: bold;
+}
+
+.big-btn {
+    grid-row: span 3; /* THIS replaces rowspan */
+    display: flex;
+}
+
+.big-btn button {
+    width: 100%;
+    height: 100%;
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
