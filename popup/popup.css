@@ -115,3 +115,12 @@ table {
     align-items: center;
     justify-content: center;
 }
+
+#new-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.item {
+    flex: auto;
+}
