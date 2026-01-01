@@ -24,6 +24,7 @@ async function generateUI() {
       header.name,
       header.value,
       key,
+      header.container,
       containers,
     );
   }
@@ -65,7 +66,11 @@ async function addHeader() {
 
   var headers = storedHeaders.headers || {};
 
-  headers[id] = { name: headerName, value: headerValue, contaiter: "all" };
+  headers[id] = {
+    name: headerName,
+    value: headerValue,
+    container: "all-containers",
+  };
   await browser.storage.local.set({ headers: headers });
 
   await popup();
@@ -85,6 +90,17 @@ async function setClickable() {
       delete headers[headerId];
       await browser.storage.local.set({ headers: headers });
       await popup();
+    };
+  }
+
+  const optionHeaders = document.getElementsByClassName("option-header");
+  for (var o = 0; o < optionHeaders.length; o++) {
+    const option = optionHeaders.item(o);
+    const headerId = option.id.slice(3);
+    option.onchange = async (element) => {
+      var { headers } = await browser.storage.local.get("headers");
+      headers[headerId].container = element.target.value;
+      await browser.storage.local.set({ headers: headers });
     };
   }
 

@@ -131,3 +131,7 @@ details {
     border-style: solid;
     padding: 10px;
 }
+
+#headers-container {
+    margin-top: 0.5em;
+}
