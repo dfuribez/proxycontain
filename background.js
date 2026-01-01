@@ -67,6 +67,7 @@ async function addHeaders(_) {
   var settings = await browser.storage.local.get(null);
 
   var cookieStoreId = _.cookieStoreId;
+  var container = await browser.contextualIdentities.get(cookieStoreId);
 
   if (cookieStoreId == "firefox-default") {
     return { requestHeaders: _.requestHeaders };
@@ -82,6 +83,17 @@ async function addHeaders(_) {
     const headerValue = `${FIREFOX2BURP_COLORS[color]},${name}`;
     _.requestHeaders.push({ name: "x-fire", value: headerValue });
   }
+
+  Object.keys(settings.headers).forEach((key) => {
+    const header = settings.headers[key];
+
+    if (
+      header.container == container.name ||
+      header.container == "all-containers"
+    ) {
+      _.requestHeaders.push({ name: header.name, value: header.value });
+    }
+  });
 
   return { requestHeaders: _.requestHeaders };
 }
