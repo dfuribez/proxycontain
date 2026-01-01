@@ -84,7 +84,7 @@ export const HEADER_TEMPLATE = (name, value, headerId, tabs) => {
   <tr>
     <th>${name}</th>
     <td>${value}</td>
-    <td><input type="button" value="delete" id="d-${headerId} class="delete-header"">
+    <td><input type="button" value="delete" id="d-${headerId}" class="delete-header">
     <td>
       ${drop}
       </select>
