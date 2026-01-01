@@ -76,6 +76,18 @@ async function setClickable() {
   document.getElementById("search").onkeyup = filterContainers;
   document.getElementById("add-header").onclick = addHeader;
 
+  const deleteHeader = document.getElementsByClassName("delete-header");
+  for (var d = 0; d < deleteHeader.length; d++) {
+    const del = deleteHeader.item(d);
+    const headerId = del.id.slice(2);
+    del.onclick = async () => {
+      var { headers } = await browser.storage.local.get("headers");
+      delete headers[headerId];
+      await browser.storage.local.set({ headers: headers });
+      await popup();
+    };
+  }
+
   const openContainers = document.getElementsByClassName("open-container");
   for (let r = 0; r < openContainers.length; r++) {
     const open = openContainers.item(r);
