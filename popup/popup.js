@@ -19,7 +19,6 @@ async function generateUI() {
 
   for (const key in storedHeaders.headers) {
     const header = storedHeaders.headers[key];
-    console.log(header.name);
     headersHTML += template.HEADER_TEMPLATE(
       header.name,
       header.value,
