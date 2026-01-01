@@ -72,12 +72,13 @@ export const CONTAINER_TEMPLATE = (
     `;
 };
 
-export const HEADER_TEMPLATE = (name, value, headerId, tabs) => {
+export const HEADER_TEMPLATE = (name, value, headerId, container, tabs) => {
   var drop = `<select name="proxies" id="sn-${headerId}" class="option-header">
-    <option value="all">all</option>`;
+    <option value="all-containers">All containers</option>`;
 
   tabs.forEach((tab) => {
-    drop += `<option value="${tab.name}" >${tab.name}</option>`;
+    const selected =
+      (drop += `<option value="${tab.name}" ${tab.name == container ? "selected" : ""}>${tab.name}</option>`);
   });
 
   return `
