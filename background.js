@@ -44,13 +44,13 @@ async function setproxy(requestDetails) {
   const containerProxy = settings[cookieStoreId];
 
   switch (containerProxy) {
-    case "proxy1":
+    case "Proxy 1":
       return {
         type: "http",
         host: settings["proxy1-host"],
         port: settings["proxy1-port"],
       };
-    case "proxy2":
+    case "Proxy 2":
       return {
         type: "http",
         host: settings["proxy2-host"],

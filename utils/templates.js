@@ -9,24 +9,6 @@ export const RADIO_BUTTON = (color) => {
   </div>`;
 };
 
-/**
- * Generates a container template string for a UI element.
- *
- * The template returned by this function includes the
- * container name, its color representation, the associated
- * cookie store identifier, and optional parameter values.
- *
- * @constant
- * @param {string} name - The name of the container.
- * @param {string} color - The CSS-compatible color value for the container.
- * @param {string} cookieStoreId - The cookie store identifier associated with this container.
- * @param {string} proxy - It can be "proxy1", "proxy2", "no-proxy"
- * @returns {string} A fully formatted UI container template.
- *
- * @example
- * // Create a container for "Main" with red color
- * const html = CONTAINER_TEMPLATE("Main", "#ff0000", "proxy1");
- */
 export const CONTAINER_TEMPLATE = (
   name,
   color,
@@ -34,42 +16,72 @@ export const CONTAINER_TEMPLATE = (
   cookieStoreId,
   proxy,
 ) => {
-  var proxy1;
-  var proxy2;
-  var noProxy = "selected";
+  var tr = document.createElement("tr");
+  var tdImage = document.createElement("td");
+  var tdColor = document.createElement("td");
 
-  if (proxy == "proxy1") {
-    proxy1 = "selected";
-    proxy2 = "";
-    noProxy = "";
-  }
+  tr.id = cookieStoreId;
 
-  if (proxy == "proxy2") {
-    proxy1 = "";
-    proxy2 = "selected";
-    noProxy = "";
-  }
+  var img = document.createElement("img");
+  img.src = image;
 
-  return `
-  <tr id="${cookieStoreId}">
-    <th class="container-image open-container" id="i-${cookieStoreId}"><img src="${image}"></th>
-    <th>
-      <div class="div-color open-container" id="d-${cookieStoreId}" style="background-color: ${color}"></div>
-    </th>
-    <th><div class="container open-container" id="b-${cookieStoreId}" alt="${cookieStoreId}">${name}</div></th>
-    <th>
-      <input type="button" value="Delete" class="delete-button" title="${cookieStoreId}">
-    </th>
+  tdImage.classList.add("container-image");
+  tdImage.classList.add("open-container");
+  tdImage.id = "i-" + cookieStoreId;
+  tdImage.appendChild(img);
 
-    <th>
-      <select name="proxies" id="px-${cookieStoreId}" class="select-proxy">
-        <option value="proxy1" ${proxy1}>Proxy 1</option>
-        <option value="proxy2" ${proxy2}>Proxy 2</option>
-        <option value="no-proxy" ${noProxy}>No proxy</option>
-      </select>
-    </th>
-  </tr>
-    `;
+  var colorDiv = document.createElement("div");
+
+  colorDiv.classList.add("div-color");
+  colorDiv.classList.add("open-container");
+  colorDiv.id = "d-" + cookieStoreId;
+  colorDiv.style = "background-color: " + color;
+
+  tdColor.appendChild(colorDiv);
+
+  var thName = document.createElement("th");
+  var nameDiv = document.createElement("div");
+
+  nameDiv.classList.add("container");
+  nameDiv.classList.add("open-container");
+  nameDiv.id = "b-" + cookieStoreId;
+  nameDiv.textContent = name;
+
+  thName.appendChild(nameDiv);
+
+  var thButton = document.createElement("th");
+  var deleteButton = document.createElement("input");
+
+  deleteButton.classList.add("delete-button");
+  deleteButton.type = "button";
+  deleteButton.title = cookieStoreId;
+  deleteButton.value = "Delete";
+
+  thButton.appendChild(deleteButton);
+
+  var thSelect = document.createElement("th");
+  var select = document.createElement("select");
+
+  select.id = "px-" + cookieStoreId;
+  select.classList.add("select-proxy");
+
+  ["Proxy 1", "Proxy 2", "No Proxy"].forEach((e) => {
+    var option = document.createElement("option");
+    option.textContent = e;
+    option.value = e;
+    option.selected = proxy == e;
+    select.appendChild(option);
+  });
+
+  thSelect.appendChild(select);
+
+  tr.appendChild(tdImage);
+  tr.appendChild(tdColor);
+  tr.appendChild(thName);
+  tr.appendChild(thButton);
+  tr.appendChild(thSelect);
+
+  return tr;
 };
 
 export const HEADER_TEMPLATE = (name, value, headerId, container, tabs) => {
