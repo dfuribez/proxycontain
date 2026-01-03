@@ -28,6 +28,11 @@ async function generateUI() {
     );
   }
 
+  var headerStatus = await browser.storage.local.get("header-status");
+  headerStatus = headerStatus["header-status"] ?? true;
+
+  document.getElementById("headers").open = headerStatus;
+
   document.getElementById("headers-table").innerHTML = headersHTML;
 }
 
@@ -82,6 +87,12 @@ async function setClickable() {
   document.getElementById("add-new-container-button").onclick = addNewContainer;
   document.getElementById("search").onkeyup = filterContainers;
   document.getElementById("add-header").onclick = addHeader;
+
+  document.getElementById("headers").ontoggle = async () => {
+    await browser.storage.local.set({
+      "header-status": document.getElementById("headers").open,
+    });
+  };
 
   const deleteHeader = document.getElementsByClassName("delete-header");
   for (var d = 0; d < deleteHeader.length; d++) {
