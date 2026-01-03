@@ -73,23 +73,41 @@ export const CONTAINER_TEMPLATE = (
 };
 
 export const HEADER_TEMPLATE = (name, value, headerId, container, tabs) => {
-  var drop = `<select name="proxies" id="sn-${headerId}" class="option-header">
-    <option value="all-containers">All containers</option>`;
+  var tr = document.createElement("tr");
+  var thName = document.createElement("th");
+  var tdValue = document.createElement("td");
+  var deleteButton = document.createElement("input");
+  var select = document.createElement("select");
 
-  tabs.forEach((tab) => {
-    const selected =
-      (drop += `<option value="${tab.name}" ${tab.name == container ? "selected" : ""}>${tab.name}</option>`);
+  deleteButton.value = "Delete";
+  deleteButton.classList.add("delete-header");
+  deleteButton.type = "button";
+  deleteButton.id = "d-" + headerId;
+
+  select.id = "sn-" + headerId;
+  select.classList.add("option-header");
+
+  var containerNames = tabs.map((obj) => obj.name);
+
+  containerNames.sort((a, b) => a.localeCompare(b));
+  containerNames.unshift("all-containers");
+
+  containerNames.forEach((name) => {
+    var option = document.createElement("option");
+    option.textContent = name;
+    option.value = name;
+    option.selected = name == container;
+
+    select.appendChild(option);
   });
 
-  return `
-  <tr>
-    <th>${name}</th>
-    <td>${value}</td>
-    <th><input type="button" value="Delete" id="d-${headerId}" class="delete-header"></th>
-    <th>
-      ${drop}
-      </select>
-    </th>
-  </tr>
-    `;
+  thName.textContent = name;
+  tdValue.textContent = value;
+
+  tr.appendChild(thName);
+  tr.appendChild(tdValue);
+  tr.appendChild(deleteButton);
+  tr.appendChild(select);
+
+  return tr;
 };

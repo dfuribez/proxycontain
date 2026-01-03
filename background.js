@@ -18,10 +18,8 @@ async function isDomainBlacklisted(url, blacklist) {
 async function setproxy(requestDetails) {
   var settings = await browser.storage.local.get(null);
 
-  const telemetryList = settings["telemetry-list"]
-    ? settings["telemetry-list"]
-    : [];
-  const customList = settings["custom-list"] ? settings["custom-list"] : [];
+  const telemetryList = settings["telemetry-list"] || [];
+  const customList = settings["custom-list"] || [];
 
   if (settings["bypass-options"] && requestDetails.method === "OPTIONS") {
     console.log("bypassing OPTIONS: " + requestDetails.url);

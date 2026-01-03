@@ -15,25 +15,26 @@ async function generateUI() {
 
   var storedHeaders = await browser.storage.local.get("headers");
 
-  var headersHTML = "";
+  var headersTable = document.getElementById("headers-table");
+  headersTable.textContent = "";
 
-  for (const key in storedHeaders.headers) {
+  Object.keys(storedHeaders.headers || {}).forEach((key) => {
     const header = storedHeaders.headers[key];
-    headersHTML += template.HEADER_TEMPLATE(
-      header.name,
-      header.value,
-      key,
-      header.container,
-      containers,
+    headersTable.appendChild(
+      template.HEADER_TEMPLATE(
+        header.name,
+        header.value,
+        key,
+        header.container,
+        containers,
+      ),
     );
-  }
+  });
 
   var headerStatus = await browser.storage.local.get("header-status");
   headerStatus = headerStatus["header-status"] ?? true;
 
   document.getElementById("headers").open = headerStatus;
-
-  document.getElementById("headers-table").innerHTML = headersHTML;
 }
 
 async function removeCookies() {
@@ -59,10 +60,8 @@ async function removeCookies() {
 }
 
 async function addHeader() {
-  var headerName = utils.sanitize(document.getElementById("header-name").value);
-  var headerValue = utils.sanitize(
-    document.getElementById("header-value").value,
-  );
+  var headerName = document.getElementById("header-name").value;
+  var headerValue = document.getElementById("header-value").value;
 
   var storedHeaders = await browser.storage.local.get("headers");
 
