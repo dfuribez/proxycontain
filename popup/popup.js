@@ -93,9 +93,7 @@ async function setClickable() {
     });
   };
 
-  const deleteHeader = document.getElementsByClassName("delete-header");
-  for (var d = 0; d < deleteHeader.length; d++) {
-    const del = deleteHeader.item(d);
+  for (const del of document.getElementsByClassName("delete-header")) {
     const headerId = del.id.slice(2);
     del.onclick = async () => {
       var { headers } = await browser.storage.local.get("headers");
@@ -105,9 +103,7 @@ async function setClickable() {
     };
   }
 
-  const optionHeaders = document.getElementsByClassName("option-header");
-  for (var o = 0; o < optionHeaders.length; o++) {
-    const option = optionHeaders.item(o);
+  for (const option of document.getElementsByClassName("option-header")) {
     const headerId = option.id.slice(3);
     option.onchange = async (element) => {
       var { headers } = await browser.storage.local.get("headers");
@@ -116,9 +112,7 @@ async function setClickable() {
     };
   }
 
-  const openContainers = document.getElementsByClassName("open-container");
-  for (let r = 0; r < openContainers.length; r++) {
-    const open = openContainers.item(r);
+  for (const open of document.getElementsByClassName("open-container")) {
     open.onclick = () => {
       browser.tabs.create({
         active: true,
@@ -127,11 +121,8 @@ async function setClickable() {
     };
   }
 
-  const deleteButtons = document.getElementsByClassName("delete-button");
-  for (let i = 0; i < deleteButtons.length; i++) {
-    const sbutton = deleteButtons.item(i);
+  for (const sbutton of document.getElementsByClassName("delete-button")) {
     const cookieStoreId = sbutton.title;
-
     sbutton.onclick = () => {
       browser.contextualIdentities.remove(cookieStoreId).then(() => {
         document.getElementById(cookieStoreId).remove();
@@ -140,9 +131,8 @@ async function setClickable() {
     };
   }
 
-  const selects = document.getElementsByClassName("select-proxy");
-  for (let r = 0; r < selects.length; r++) {
-    selects.item(r).onclick = async (element) => {
+  for (const select of document.getElementsByClassName("select-proxy")) {
+    select.onclick = async (element) => {
       const proxy = element.target.value;
       const cookie = element.target.parentNode.id.slice(3);
       await browser.storage.local.set({ [cookie]: proxy });
@@ -216,28 +206,31 @@ async function saveSettings() {
 async function getStorageElements() {
   const [currentTab] = await browser.tabs.query({ active: true });
 
-  var local = await browser.scripting.executeScript({
+  var [local] = await browser.scripting.executeScript({
     target: { tabId: currentTab.id },
     func: () => {
       return localStorage.length;
     },
   });
 
-  var session = await browser.scripting.executeScript({
+  var [session] = await browser.scripting.executeScript({
     target: { tabId: currentTab.id },
     func: () => {
       return sessionStorage.length;
     },
   });
 
+  local = local || { result: 0 };
+  session = session || { result: 0 };
+
   const cookies = await browser.cookies.getAll({
     url: currentTab.url,
     storeId: currentTab.cookieStoreId,
   });
 
-  document.getElementById("local-items").innerText = local[0].result + " items";
+  document.getElementById("local-items").innerText = local.result + " items";
   document.getElementById("session-items").innerText =
-    session[0].result + " items";
+    session.result + " items";
   document.getElementById("cookies").innerText = cookies.length + " cookies";
 }
 
