@@ -135,6 +135,16 @@ details {
     column-gap: 1em;
 }
 
+#headers-table tr th:nth-child(3),
+#headers-table tr th:nth-child(4) {
+    text-align: right;
+}
+
+#containers tr th:nth-child(4),
+#containers tr th:nth-child(5) {
+    text-align: right;
+}
+
 input[type="text"] {
     width: 100%;
     box-sizing: border-box;
