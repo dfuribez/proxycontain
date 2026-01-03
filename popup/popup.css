@@ -116,24 +116,26 @@ table {
     justify-content: center;
 }
 
-#new-container {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.item {
-    flex: auto;
-}
-
 details {
     border: 1px;
     border-style: solid;
     padding: 10px;
 }
 
+#new-container {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    column-gap: 10px;
+}
+
 #headers-container {
     display: grid;
-    grid-template-columns: auto auto auto auto auto;
+    grid-template-columns: auto 1fr auto 1fr auto;
     margin-top: 0.5em;
     column-gap: 1em;
+}
+
+input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
 }
