@@ -116,8 +116,7 @@ table {
     justify-content: center;
 }
 
-#new-container,
-#headers-container {
+#new-container {
     display: flex;
     flex-wrap: wrap;
 }
@@ -133,5 +132,8 @@ details {
 }
 
 #headers-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
     margin-top: 0.5em;
+    column-gap: 1em;
 }

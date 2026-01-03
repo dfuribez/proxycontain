@@ -72,6 +72,9 @@ async function addHeader() {
   };
   await browser.storage.local.set({ headers: headers });
 
+  document.getElementById("header-name").value = "";
+  document.getElementById("header-value").value = "";
+
   await popup();
 }
 
