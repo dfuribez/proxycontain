@@ -84,7 +84,7 @@ async function addHeaders(_) {
     _.requestHeaders.push({ name: "x-fire", value: headerValue });
   }
 
-  Object.keys(settings.headers).forEach((key) => {
+  Object.keys(settings.headers || {}).forEach((key) => {
     const header = settings.headers[key];
 
     if (
