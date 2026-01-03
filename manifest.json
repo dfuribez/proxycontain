@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "ProxyContain",
-  "version": "1.5",
+  "version": "1.0",
   "description": "Proxy Container",
   "homepage_url": "https://github.com/dfuribez/proxycontain",
   "icons": {
@@ -10,7 +10,10 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "proxy@contain",
-      "strict_min_version": "91.1.0"
+      "strict_min_version": "91.1.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
     }
   },
   "permissions": [
