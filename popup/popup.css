@@ -135,8 +135,8 @@ details {
     column-gap: 1em;
 }
 
-#headers-table tr th:nth-child(3),
-#headers-table tr th:nth-child(4) {
+#headers-table tr *:nth-child(3),
+#headers-table tr *:nth-child(4) {
     text-align: right;
 }
 

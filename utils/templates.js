@@ -88,13 +88,18 @@ export const HEADER_TEMPLATE = (name, value, headerId, container, tabs) => {
   var tr = document.createElement("tr");
   var thName = document.createElement("th");
   var tdValue = document.createElement("td");
-  var deleteButton = document.createElement("input");
-  var select = document.createElement("select");
 
+  var deleteButton = document.createElement("input");
+  var thButton = document.createElement("th");
   deleteButton.value = "Delete";
   deleteButton.classList.add("delete-header");
   deleteButton.type = "button";
   deleteButton.id = "d-" + headerId;
+
+  thButton.appendChild(deleteButton);
+
+  var select = document.createElement("select");
+  var thSelect = document.createElement("th");
 
   select.id = "sn-" + headerId;
   select.classList.add("option-header");
@@ -113,13 +118,15 @@ export const HEADER_TEMPLATE = (name, value, headerId, container, tabs) => {
     select.appendChild(option);
   });
 
+  thSelect.append(select);
+
   thName.textContent = name;
   tdValue.textContent = value;
 
   tr.appendChild(thName);
   tr.appendChild(tdValue);
-  tr.appendChild(deleteButton);
-  tr.appendChild(select);
+  tr.appendChild(thButton);
+  tr.appendChild(thSelect);
 
   return tr;
 };

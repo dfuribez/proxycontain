@@ -40,10 +40,7 @@ async function setproxy(requestDetails) {
     }
   }
 
-  const cookieStoreId = requestDetails.cookieStoreId;
-  const containerProxy = settings[cookieStoreId];
-
-  switch (containerProxy) {
+  switch (settings[requestDetails.cookieStoreId]) {
     case "Proxy 1":
       return {
         type: "http",
