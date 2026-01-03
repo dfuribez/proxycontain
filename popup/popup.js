@@ -242,9 +242,7 @@ async function getStorageElements() {
 }
 
 async function addNewContainer() {
-  const containerName = utils.sanitize(
-    document.getElementById("new-container-text").value,
-  );
+  const containerName = document.getElementById("new-container-text").value;
   const color = document.querySelector('input[name="color"]:checked').value;
   const containerColor = constants.COLORS_MAP[color];
 
@@ -255,7 +253,7 @@ async function addNewContainer() {
       icon: utils.getContainerIcon(),
     })
     .then(async (_) => {
-      await browser.storage.local.set({ [_.cookieStoreId]: "proxy1" });
+      await browser.storage.local.set({ [_.cookieStoreId]: "Proxy 1" });
       await displayAllContainers(await browser.storage.local.get(null));
       await setClickable();
 
@@ -279,7 +277,8 @@ async function displayAllContainers(settings, filter) {
 
   containers.sort((a, b) => a.name.localeCompare(b.name));
 
-  var containersHTML = "";
+  var containerTable = document.getElementById("containers");
+  containerTable.textContent = "";
 
   for (const container of containers) {
     var cookieStoreId = container.cookieStoreId;
@@ -288,19 +287,20 @@ async function displayAllContainers(settings, filter) {
     try {
       var selectedProxy = settings[cookieStoreId];
     } catch (e) {
-      var selectedProxy = "no-proxy";
+      var selectedProxy = "No Proxy";
     }
 
-    containersHTML += template.CONTAINER_TEMPLATE(
-      utils.sanitize(container.name),
-      color,
-      container.iconUrl,
-      cookieStoreId,
-      selectedProxy,
+    containerTable.appendChild(
+      template.CONTAINER_TEMPLATE(
+        container.name,
+        color,
+        container.iconUrl,
+        cookieStoreId,
+        selectedProxy,
+      ),
     );
   }
 
-  document.getElementById("containers").innerHTML = containersHTML;
   await setClickable();
 }
 
