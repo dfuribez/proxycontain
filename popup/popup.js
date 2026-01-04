@@ -82,6 +82,12 @@ async function addHeader() {
   await popup();
 }
 
+async function setAllowed() {
+  console.log("asdasd");
+  document.getElementById("allow-pasting").checked;
+  document.getElementById("allow-select").checked;
+}
+
 async function setClickable() {
   document.getElementById("add-new-container-button").onclick = addNewContainer;
   document.getElementById("search").onkeyup = filterContainers;
@@ -193,6 +199,8 @@ async function setClickable() {
   document.getElementById("bypass-telemetry").onclick = saveSettings;
   document.getElementById("bypass-custom").onclick = saveSettings;
   document.getElementById("bypass-options").onclick = saveSettings;
+  document.getElementById("allow-pasting").onclick = saveSettings;
+  document.getElementById("allow-select").onclick = saveSettings;
 }
 
 async function saveSettings() {
@@ -200,6 +208,8 @@ async function saveSettings() {
     "bypass-telemetry": document.getElementById("bypass-telemetry").checked,
     "bypass-custom": document.getElementById("bypass-custom").checked,
     "bypass-options": document.getElementById("bypass-options").checked,
+    allowpasting: document.getElementById("allow-pasting").checked,
+    allowselect: document.getElementById("allow-select").checked,
   });
 }
 
@@ -318,6 +328,9 @@ async function loadSettings() {
   document.getElementById("bypass-custom").checked = settings["bypass-custom"];
   document.getElementById("bypass-options").checked =
     settings["bypass-options"];
+
+  document.getElementById("allow-pasting").checked = settings["allowpasting"];
+  document.getElementById("allow-select").checked = settings["allowselect"];
 
   await displayAllContainers(settings);
   await getStorageElements();
