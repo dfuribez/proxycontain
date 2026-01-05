@@ -2,9 +2,17 @@
 
 **Proxycontain** is a Firefox extension that integrates **Firefox Contextual Identities (Containers)** with per-container proxying and HTTP header manipulation. It is designed for **web application security testing and penetration testing workflows**.
 
+
+[Install ProxyContain - Firefox](https://addons.mozilla.org/en-US/firefox/addon/proxycontain/)
+
 ---
 
 ## Key Capabilities
+
+### Interaction Restrictions Bypass
+- Restore text selection on websites that disable it
+- Re-enable copy and paste functionality on restricted pages
+
 
 ### Container Management
 - Create new Firefox containers
