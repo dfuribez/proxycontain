@@ -40,7 +40,7 @@ async function setproxy(requestDetails) {
     }
   }
 
-  switch (settings[requestDetails.cookieStoreId]) {
+  switch (settings[requestDetails.cookieStoreId] || "Proxy 1") {
     case "Proxy 1":
       return {
         type: "http",
