@@ -82,16 +82,8 @@ async function addHeader() {
   await popup();
 }
 
-async function setAllowed() {
-  console.log("asdasd");
-  document.getElementById("allow-pasting").checked;
-  document.getElementById("allow-select").checked;
-}
-
 async function setClickable() {
-  document.getElementById("add-new-container-button").onclick = addNewContainer;
-  document.getElementById("search").onkeyup = filterContainers;
-  document.getElementById("add-header").onclick = addHeader;
+  const [currentTab] = await browser.tabs.query({ active: true });
 
   document.getElementById("headers").ontoggle = async () => {
     await browser.storage.local.set({
@@ -99,10 +91,43 @@ async function setClickable() {
     });
   };
 
+  document.getElementById("enable-inputs").onclick = async () => {
+    browser.scripting.executeScript({
+      target: { tabId: currentTab.id },
+      func: () => {
+        document.querySelectorAll(":disabled").forEach((element) => {
+          element.disabled = false;
+        });
+      },
+    });
+  };
+
+  document.getElementById("allow-pasting").onclick = async (e) => {
+    if (e.target.checked) {
+      browser.scripting.executeScript({
+        target: { tabId: currentTab.id },
+        func: () => {
+          ["paste", "copy", "cut", "contextmenu", "keydown"].forEach((type) => {
+            document.addEventListener(
+              type,
+              function (e) {
+                e.stopImmediatePropagation();
+                return true;
+              },
+              true,
+            );
+          });
+        },
+      });
+    }
+    saveSettings();
+  };
+
+  const { headers } = await browser.storage.local.get("headers");
+
   for (const del of document.getElementsByClassName("delete-header")) {
     const headerId = del.id.slice(2);
     del.onclick = async () => {
-      var { headers } = await browser.storage.local.get("headers");
       delete headers[headerId];
       await browser.storage.local.set({ headers: headers });
       await popup();
@@ -112,7 +137,6 @@ async function setClickable() {
   for (const option of document.getElementsByClassName("option-header")) {
     const headerId = option.id.slice(3);
     option.onchange = async (element) => {
-      var { headers } = await browser.storage.local.get("headers");
       headers[headerId].container = element.target.value;
       await browser.storage.local.set({ headers: headers });
     };
@@ -147,9 +171,8 @@ async function setClickable() {
 
   document.getElementById("current-tab-remove-local").onclick = async () => {
     await getStorageElements();
-    const currentTab = await browser.tabs.query({ active: true });
     await browser.scripting.executeScript({
-      target: { tabId: currentTab[0].id },
+      target: { tabId: currentTab.id },
       func: async () => {
         localStorage.clear();
       },
@@ -158,9 +181,8 @@ async function setClickable() {
   };
 
   document.getElementById("current-tab-remove-session").onclick = async () => {
-    const currentTab = await browser.tabs.query({ active: true });
     await browser.scripting.executeScript({
-      target: { tabId: currentTab[0].id },
+      target: { tabId: currentTab.id },
       func: () => {
         sessionStorage.clear();
       },
@@ -174,9 +196,8 @@ async function setClickable() {
   };
 
   document.getElementById("current-tab-remove-all").onclick = async () => {
-    const currentTab = await browser.tabs.query({ active: true });
     await browser.scripting.executeScript({
-      target: { tabId: currentTab[0].id },
+      target: { tabId: currentTab.id },
       func: () => {
         sessionStorage.clear();
         localStorage.clear();
@@ -187,8 +208,7 @@ async function setClickable() {
   };
 
   document.getElementById("current-tab-reload").onclick = async () => {
-    const currentTab = await browser.tabs.query({ active: true });
-    await browser.tabs.reload(currentTab[0].id, { bypassCache: true });
+    await browser.tabs.reload(currentTab.id, { bypassCache: true });
     getStorageElements();
   };
 
@@ -199,8 +219,10 @@ async function setClickable() {
   document.getElementById("bypass-telemetry").onclick = saveSettings;
   document.getElementById("bypass-custom").onclick = saveSettings;
   document.getElementById("bypass-options").onclick = saveSettings;
-  document.getElementById("allow-pasting").onclick = saveSettings;
   document.getElementById("allow-select").onclick = saveSettings;
+  document.getElementById("add-new-container-button").onclick = addNewContainer;
+  document.getElementById("search").onkeyup = filterContainers;
+  document.getElementById("add-header").onclick = addHeader;
 }
 
 async function saveSettings() {
@@ -216,19 +238,27 @@ async function saveSettings() {
 async function getStorageElements() {
   const [currentTab] = await browser.tabs.query({ active: true });
 
-  var [local] = await browser.scripting.executeScript({
-    target: { tabId: currentTab.id },
-    func: () => {
-      return localStorage.length;
-    },
-  });
+  try {
+    var [local] = await browser.scripting.executeScript({
+      target: { tabId: currentTab.id },
+      func: () => {
+        return localStorage.length;
+      },
+    });
+  } catch {
+    local = { result: "NA" };
+  }
 
-  var [session] = await browser.scripting.executeScript({
-    target: { tabId: currentTab.id },
-    func: () => {
-      return sessionStorage.length;
-    },
-  });
+  try {
+    var [session] = await browser.scripting.executeScript({
+      target: { tabId: currentTab.id },
+      func: () => {
+        return sessionStorage.length;
+      },
+    });
+  } catch {
+    session = { result: "NA" };
+  }
 
   local = local || { result: 0 };
   session = session || { result: 0 };
@@ -303,7 +333,8 @@ async function displayAllContainers(settings, filter) {
       ),
     );
   }
-
+  document.getElementById("total-containers").innerText =
+    `Containers (${containers.length})`;
   await setClickable();
 }
 

@@ -4,11 +4,13 @@ let allowSelecting = false;
 function allowPaste(e) {
   if (!allowPasting) return;
   e.stopImmediatePropagation();
+  return true;
 }
 
 function allowSelect(e) {
   if (!allowSelect) return;
   e.stopImmediatePropagation();
+  return true;
 }
 
 ["paste", "copy", "cut", "contextmenu", "keydown"].forEach((type) => {
