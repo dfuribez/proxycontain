@@ -16,6 +16,10 @@ async function isDomainBlacklisted(url, blacklist) {
 }
 
 async function setproxy(requestDetails) {
+  if (requestDetails.cookieStoreId === "firefox-default") {
+    return { type: "direct" };
+  }
+
   var settings = await browser.storage.local.get(null);
 
   const telemetryList = settings["telemetry-list"] || [];
@@ -29,14 +33,14 @@ async function setproxy(requestDetails) {
   if (settings["bypass-telemetry"]) {
     if (await isDomainBlacklisted(requestDetails.url, telemetryList)) {
       console.log("bypassing: " + url);
-      return null;
+      return { type: "direct" };
     }
   }
 
   if (settings["bypass-custom"]) {
     if (await isDomainBlacklisted(requestDetails.url, customList)) {
       console.log("bypassing: " + url);
-      return null;
+      return { type: "direct" };
     }
   }
 
