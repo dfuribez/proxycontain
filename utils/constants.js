@@ -59,4 +59,8 @@ export const TELEMETRY_LIST = [
   "mixpanel.com",
   "hotjar.com",
   "i.ytimg.com",
+  "ads.mozilla.org",
+  "ads-img.mozilla.org",
+  "versioncheck-bg.addons.mozilla.org",
+  "services.addons.mozilla.org",
 ];
