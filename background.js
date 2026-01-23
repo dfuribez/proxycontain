@@ -97,6 +97,41 @@ async function addHeaders(_) {
   return { requestHeaders: _.requestHeaders };
 }
 
+async function setBadgeText(tabId) {
+  var settings = await browser.storage.local.get(null);
+  var tabs = await browser.tabs.get(tabId);
+
+  var badgeText = "";
+
+  const proxy = settings[tabs.cookieStoreId] || "Proxy 1";
+
+  if (proxy == "Proxy 1") {
+    badgeText += "1";
+  } else if (proxy == "Proxy 2") {
+    badgeText = "2";
+  }
+
+  if (tabs.cookieStoreId === "firefox-default") {
+    badgeText = "";
+  }
+
+  if (settings.allowpasting || false) {
+    badgeText += "p";
+  }
+  if (settings.allowselect || false) {
+    badgeText += "s";
+  }
+
+  browser.browserAction.setBadgeText({
+    text: badgeText,
+    tabId: tabId,
+  });
+}
+
+browser.tabs.onActivated.addListener((tab) => setBadgeText(tab.tabId));
+browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  setBadgeText(tabId);
+});
 browser.proxy.onRequest.addListener(setproxy, { urls: ["<all_urls>"] });
 browser.webRequest.onBeforeSendHeaders.addListener(
   addHeaders,
