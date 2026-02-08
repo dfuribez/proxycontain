@@ -8,24 +8,26 @@ function allowPaste(e) {
 }
 
 function allowSelect(e) {
-  if (!allowSelect) return;
+  if (!allowSelecting) return;
   e.stopImmediatePropagation();
   return true;
 }
-
-["paste", "copy", "cut", "contextmenu", "keydown"].forEach((type) => {
-  document.addEventListener(type, allowPaste, true);
-});
-
-["selectstart", "mousedown"].forEach((type) => {
-  document.addEventListener(type, allowSelect, true);
-});
 
 browser.storage.local.get(null).then((settings) => {
   allowPasting = settings.allowpasting;
   allowSelecting = settings.allowselect;
 
+  if (allowPasting) {
+    ["paste", "copy", "cut", "contextmenu", "keydown"].forEach((type) => {
+      document.addEventListener(type, allowPaste, true);
+    });
+  }
+
   if (allowSelecting) {
+    ["selectstart", "mousedown"].forEach((type) => {
+      document.addEventListener(type, allowSelect, true);
+    });
+
     style = document.createElement("style");
     style.textContent = `
       * {
