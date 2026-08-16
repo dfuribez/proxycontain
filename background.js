@@ -6,9 +6,11 @@ const FIREFOX2BURP_COLORS = {
   blue: "blue",
   pink: "pink",
   purple: "magenta",
-  turquoise: "cyan",
-  toolbar: "gray",
+  cyan: "cyan",
+  gray: "gray",
+  violet: "magenta"
 };
+ 
 
 async function isDomainBlacklisted(url, blacklist) {
   const currentDomain = new URL(url).hostname;
