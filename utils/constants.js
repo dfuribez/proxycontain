@@ -7,7 +7,7 @@ export const COLORS_MAP = {
   pink: "pink",
   magenta: "purple", // *
   cyan: "turquoise", // *
-  lightgray: "toolbar", // *
+  gray: "gray", // *
 };
 
 export const CONTEXTUAL_ICONS = [
