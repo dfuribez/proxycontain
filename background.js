@@ -46,7 +46,12 @@ async function setproxy(requestDetails) {
     }
   }
 
-  switch (settings[requestDetails.cookieStoreId] || "Proxy 1") {
+  var selectedProxy = settings[requestDetails.cookieStoreId]
+
+  if (selectedProxy === undefined
+    && requestDetails.incognito) return { type: "direct" };
+
+  switch (selectedProxy || "Proxy 1") {
     case "Proxy 1":
       return {
         type: "http",
